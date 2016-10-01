@@ -9,7 +9,7 @@ request:
     Accept-Encoding:
     - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
     Accept:
-    - '*/*'
+    - "*/*"
     User-Agent:
     - Ruby
 response:
@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Fri, 29 Jul 2016 13:33:57 GMT
+    - Sat, 01 Oct 2016 14:37:44 GMT
     Server:
     - Apache
     Expires:
@@ -28,14 +28,14 @@ response:
     Pragma:
     - no-cache
     Set-Cookie:
-    - PHPSESSID=ICKPlDs4XCAc8nHfFFHJb0; path=/
+    - PHPSESSID=1dGS4sRamdbCa8z6Z4p9w1; path=/
     Vary:
     - Accept-Encoding
-    Transfer-Encoding:
-    - chunked
     Content-Type:
     - text/html
+    Content-Length:
+    - '28929'
   body:
-    encoding: UTF-8
+    encoding: ASCII-8BIT
   http_version: 
-recorded_at: Fri, 29 Jul 2016 13:33:58 GMT
+recorded_at: Sat, 01 Oct 2016 14:37:44 GMT

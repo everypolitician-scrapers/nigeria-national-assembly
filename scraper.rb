@@ -1,5 +1,6 @@
 #!/bin/env ruby
 # encoding: utf-8
+# frozen_string_literal: true
 
 require 'colorize'
 require 'field_serializer'
@@ -14,7 +15,7 @@ OpenURI::Cache.cache_path = '.cache'
 
 class String
   def tidy
-    self.gsub(/[[:space:]]+/, ' ').strip
+    gsub(/[[:space:]]+/, ' ').strip
   end
 end
 
@@ -39,7 +40,7 @@ class SearchPage < Page
     noko.css('.search-result-item a').map do |a|
       {
         name: a.text,
-        url: URI.join(url, a.attr('href')),
+        url:  URI.join(url, a.attr('href')),
       }
     end
   end
@@ -59,7 +60,7 @@ class MemberPage < Page
   end
 
   field :name do
-    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ','')
+    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ', '')
   end
 
   field :constituency do
@@ -97,7 +98,7 @@ class MemberPage < Page
   end
 
   field :area do
-    [constituency, state].join(", ")
+    [constituency, state].join(', ')
   end
 
   private
@@ -111,7 +112,7 @@ class MemberPage < Page
   end
 
   def party_node_match
-    party_node.match(/^(.*)\s+\((.*)\)\s*$/) or abort "Bad party: #{party_node}"
+    party_node.match(/^(.*)\s+\((.*)\)\s*$/) || abort("Bad party: #{party_node}")
   end
 
   def party
@@ -129,7 +130,6 @@ class MemberPage < Page
   def state
     box.xpath('.//th[text()="State"]/following-sibling::td').text.tidy
   end
-
 end
 
 members = %w(a e i o u).flat_map do |vowel|
@@ -139,5 +139,5 @@ end.uniq
 
 members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
   person = MemberPage.new(mem[:url])
-  ScraperWiki.save_sqlite([:id, :name, :term], person.to_h)
+  ScraperWiki.save_sqlite(%i(id name term), person.to_h)
 end

@@ -101,6 +101,10 @@ class MemberPage < Page
     [constituency, state].join(', ')
   end
 
+  field :phone do
+    noko.css('.fa-phone').xpath('./following-sibling::text()').first.text.tidy
+  end
+
   private
 
   def box

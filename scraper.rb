@@ -53,40 +53,83 @@ class SearchPage < Page
   attr_reader :search_string
 end
 
-def noko_for(url)
-  Nokogiri::HTML(open(url).read)
-end
-
-
-def scrape_mp(url)
-  noko = noko_for(url)
-
-  box = noko.css('.front-carousel')
-
-  party_node = box.xpath('.//th[text()="Party"]/following-sibling::td').text
-  if found = party_node.match(/^(.*)\s+\((.*)\)\s*$/)
-    party, party_id = found.captures
-  else
-    warn "ODD PARTY: #{party_node}"
-    party, party_id = party_node, "Unknown"
+class MemberPage < Page
+  field :id do
+    url.to_s.split('/').last
   end
 
-  data = { 
-    id: url.to_s.split('/').last,
-    name: box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ',''),
-    constituency: box.xpath('.//th[text()="Constituency"]/following-sibling::td').text.tidy,
-    state: box.xpath('.//th[text()="State"]/following-sibling::td').text.tidy,
-    chamber: box.xpath('.//th[text()="Chamber"]/following-sibling::td').text.tidy,
-    party: party,
-    party_id: party_id,
-    image: box.css('.carousel-inner img/@src').text,
-    term: 2015,
-    source: url.to_s,
-  }
-  data[:area] = "%s, %s" % [data[:constituency], data[:state]]
-  data[:image] = URI.join(url, data[:image]).to_s unless data[:image].to_s.empty?
-  warn data
-  ScraperWiki.save_sqlite([:id, :name, :term], data)
+  field :name do
+    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ','')
+  end
+
+  field :constituency do
+    constituency
+  end
+
+  field :state do
+    state
+  end
+
+  field :chamber do
+    box.xpath('.//th[text()="Chamber"]/following-sibling::td').text.tidy
+  end
+
+  field :party do
+    party
+  end
+
+  field :party_id do
+    party_id
+  end
+
+  field :image do
+    img = box.css('.carousel-inner img/@src').text
+    return if img.to_s.empty?
+    URI.join(url, img).to_s
+  end
+
+  field :term do
+    2015
+  end
+
+  field :source do
+    url.to_s
+  end
+
+  field :area do
+    [constituency, state].join(", ")
+  end
+
+  private
+
+  def box
+    noko.css('.front-carousel')
+  end
+
+  def party_node
+    box.xpath('.//th[text()="Party"]/following-sibling::td').text
+  end
+
+  def party_node_match
+    party_node.match(/^(.*)\s+\((.*)\)\s*$/) or abort "Bad party: #{party_node}"
+  end
+
+  def party
+    party_node_match.captures.first
+  end
+
+  def party_id
+    party_node_match.captures.last
+  end
+
+  def constituency
+    box.xpath('.//th[text()="Constituency"]/following-sibling::td').text.tidy
+  end
+
+  def state
+    box.xpath('.//th[text()="State"]/following-sibling::td').text.tidy
+  end
+
 end
 
 members = %w(a e i o u).flat_map do |vowel|
@@ -95,5 +138,6 @@ members = %w(a e i o u).flat_map do |vowel|
 end.uniq
 
 members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
-  scrape_mp mem[:url]
+  person = MemberPage.new(mem[:url])
+  ScraperWiki.save_sqlite([:id, :name, :term], person.to_h)
 end

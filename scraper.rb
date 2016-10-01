@@ -1,14 +1,16 @@
 #!/bin/env ruby
 # encoding: utf-8
 
-require 'scraperwiki'
-require 'nokogiri'
 require 'colorize'
+require 'field_serializer'
+require 'nokogiri'
 require 'pry'
+require 'scraperwiki'
+
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 
-require 'scraped_page_archive/open-uri'
+# require 'scraped_page_archive/open-uri'
 
 class String
   def tidy
@@ -16,9 +18,45 @@ class String
   end
 end
 
+class Page
+  include FieldSerializer
+
+  def initialize(url)
+    @url = url
+  end
+
+  def noko
+    @noko ||= Nokogiri::HTML(open(url).read)
+  end
+
+  private
+
+  attr_reader :url
+end
+
+class SearchPage < Page
+  field :members do
+    noko.css('.search-result-item a').map do |a|
+      {
+        name: a.text,
+        url: URI.join(url, a.attr('href')),
+      }
+    end
+  end
+
+  field :url do
+    url
+  end
+
+  private
+
+  attr_reader :search_string
+end
+
 def noko_for(url)
   Nokogiri::HTML(open(url).read)
 end
+
 
 def scrape_mp(url)
   noko = noko_for(url)
@@ -47,13 +85,15 @@ def scrape_mp(url)
   }
   data[:area] = "%s, %s" % [data[:constituency], data[:state]]
   data[:image] = URI.join(url, data[:image]).to_s unless data[:image].to_s.empty?
+  warn data
   ScraperWiki.save_sqlite([:id, :name, :term], data)
 end
 
-links = %w(a e i o u).map { |v|
-  url = 'http://www.nass.gov.ng/search/mps/?search=%s' % v
-  noko = noko_for(url)
-  noko.css('.search-result-item a').select { |a| a.text.include? 'Hon. ' }.map { |a| URI.join url, a.attr('href') }
-}.flatten.uniq.each do |url|
-  scrape_mp url
+members = %w(a e i o u).flat_map do |vowel|
+  url = 'http://www.nass.gov.ng/search/mps/?search=%s' % vowel
+  SearchPage.new(url).to_h[:members]
+end.uniq
+
+members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
+  scrape_mp mem[:url]
 end

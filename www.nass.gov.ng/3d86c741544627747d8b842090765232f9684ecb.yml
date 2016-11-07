@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Sat, 05 Nov 2016 19:45:55 GMT
+    - Mon, 07 Nov 2016 06:19:08 GMT
     Server:
     - Apache
     Expires:
@@ -28,7 +28,7 @@ response:
     Pragma:
     - no-cache
     Set-Cookie:
-    - PHPSESSID=wEllkB6U%2CjaO%2C2Dry8s-s2; path=/
+    - PHPSESSID=DNYytX1GO1AGohukujhaP2; path=/
     Vary:
     - Accept-Encoding
     Content-Length:
@@ -38,4 +38,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Sat, 05 Nov 2016 19:45:57 GMT
+recorded_at: Mon, 07 Nov 2016 06:19:08 GMT

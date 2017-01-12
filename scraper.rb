@@ -59,8 +59,14 @@ class MemberPage < Page
     url.to_s.split('/').last
   end
 
+  TITLE_RE = /^(Hon\.|Sen\.) /
+
   field :name do
-    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ', '')
+    name_with_title.gsub(TITLE_RE, '')
+  end
+
+  field :title do
+    $1 if name_with_title.match(TITLE_RE)
   end
 
   field :constituency do
@@ -107,6 +113,10 @@ class MemberPage < Page
 
   private
 
+  def name_with_title
+    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy
+  end
+
   def box
     noko.css('.front-carousel')
   end
@@ -141,7 +151,7 @@ members = %w(a e i o u).flat_map do |vowel|
   SearchPage.new(url).to_h[:members]
 end.uniq
 
-members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
+members.each do |mem|
   person = MemberPage.new(mem[:url])
-  ScraperWiki.save_sqlite(%i(id name term), person.to_h)
+  ScraperWiki.save_sqlite(%i(id name term chamber), person.to_h)
 end

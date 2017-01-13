@@ -66,7 +66,7 @@ class MemberPage < Page
   end
 
   field :title do
-    $1 if name_with_title.match(TITLE_RE)
+    name_with_title[TITLE_RE, 1]
   end
 
   field :constituency do

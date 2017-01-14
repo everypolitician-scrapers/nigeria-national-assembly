@@ -27,7 +27,8 @@ class Page
   end
 
   def noko
-    @noko ||= Nokogiri::HTML(open(url).read)
+    @html ||= open(url) { |f| f.read }
+    @noko ||= Nokogiri::HTML(@html)
   end
 
   private
@@ -101,6 +102,36 @@ class MemberPage < Page
 
   field :source do
     url.to_s
+  end
+
+  field :js_position do
+    # Annoyingly, the position box, when otherwise empty, is populated
+    # by JavaScript based on an variable generated as part of the
+    # page. The generated JS looks like, for example:
+    #
+    #   var positions = $("span.btn.green");
+    #
+    #
+    #   $.each(positions, function(k, v){
+    #     if($(v).html() == ""){
+    #
+    #       if("Hon" == "Sen"){
+    #         $(v).html("Senator");
+    #         $("span.btn.green").removeClass("green").addClass("red");
+    #       }
+    #       if("Hon" == "Hon") $(v).html("Member");
+    #
+    #     }
+    #   });
+    #
+    # The first "Hon" in those conditionals might be "Sen" in some
+    # pages. This field extracts that string:
+    @html[/if\("(.*)" == "Sen"\)\{/, 1]
+  end
+
+  field :position do
+    pos_span = box.xpath('.//th[text()="Position"]/following-sibling::td/span')
+    pos_span.text.tidy
   end
 
   field :area do

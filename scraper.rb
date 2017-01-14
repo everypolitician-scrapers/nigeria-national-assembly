@@ -27,7 +27,8 @@ class Page
   end
 
   def noko
-    @noko ||= Nokogiri::HTML(open(url).read)
+    @html ||= open(url) { |f| f.read }
+    @noko ||= Nokogiri::HTML(@html)
   end
 
   private
@@ -46,7 +47,7 @@ class SearchPage < Page
   end
 
   field :url do
-    url
+    @url
   end
 
   private
@@ -59,8 +60,14 @@ class MemberPage < Page
     url.to_s.split('/').last
   end
 
+  TITLE_RE = /^(Hon\.|Sen\.) /
+
   field :name do
-    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ', '')
+    name_with_title.gsub(TITLE_RE, '')
+  end
+
+  field :title do
+    name_with_title[TITLE_RE, 1]
   end
 
   field :constituency do
@@ -97,6 +104,36 @@ class MemberPage < Page
     url.to_s
   end
 
+  field :js_position do
+    # Annoyingly, the position box, when otherwise empty, is populated
+    # by JavaScript based on an variable generated as part of the
+    # page. The generated JS looks like, for example:
+    #
+    #   var positions = $("span.btn.green");
+    #
+    #
+    #   $.each(positions, function(k, v){
+    #     if($(v).html() == ""){
+    #
+    #       if("Hon" == "Sen"){
+    #         $(v).html("Senator");
+    #         $("span.btn.green").removeClass("green").addClass("red");
+    #       }
+    #       if("Hon" == "Hon") $(v).html("Member");
+    #
+    #     }
+    #   });
+    #
+    # The first "Hon" in those conditionals might be "Sen" in some
+    # pages. This field extracts that string:
+    @html[/if\("(.*)" == "Sen"\)\{/, 1]
+  end
+
+  field :position do
+    pos_span = box.xpath('.//th[text()="Position"]/following-sibling::td/span')
+    pos_span.text.tidy
+  end
+
   field :area do
     [constituency, state].join(', ')
   end
@@ -106,6 +143,10 @@ class MemberPage < Page
   end
 
   private
+
+  def name_with_title
+    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy
+  end
 
   def box
     noko.css('.front-carousel')
@@ -141,7 +182,7 @@ members = %w(a e i o u).flat_map do |vowel|
   SearchPage.new(url).to_h[:members]
 end.uniq
 
-members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
+members.each do |mem|
   person = MemberPage.new(mem[:url])
-  ScraperWiki.save_sqlite(%i(id name term), person.to_h)
+  ScraperWiki.save_sqlite(%i(id name term chamber), person.to_h)
 end

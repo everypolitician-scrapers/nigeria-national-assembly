@@ -46,7 +46,7 @@ class SearchPage < Page
   end
 
   field :url do
-    url
+    @url
   end
 
   private

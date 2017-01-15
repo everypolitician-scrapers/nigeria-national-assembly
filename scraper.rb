@@ -2,7 +2,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-require 'colorize'
 require 'field_serializer'
 require 'nokogiri'
 require 'pry'
@@ -10,7 +9,6 @@ require 'scraperwiki'
 
 # require 'open-uri/cached'
 # OpenURI::Cache.cache_path = '.cache'
-
 require 'scraped_page_archive/open-uri'
 
 class String

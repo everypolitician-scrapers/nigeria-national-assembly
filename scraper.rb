@@ -94,8 +94,10 @@ members = %w(a e i o u).flat_map do |vowel|
   SearchPage.new(response: Scraped::Request.new(url: url).response).members
 end.uniq
 
-members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
-  data = MemberPage.new(response: Scraped::Request.new(url: mem[:url]).response).to_h
-  # puts data.sort_by { |k, _| k }.to_h
-  ScraperWiki.save_sqlite(%i(id name term), data)
+data = members.select { |m| m[:name].start_with? 'Hon' }.map do |mem|
+  MemberPage.new(response: Scraped::Request.new(url: mem[:url]).response).to_h
 end
+# puts data
+
+ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
+ScraperWiki.save_sqlite(%i(id name term), data)

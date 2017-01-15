@@ -2,57 +2,30 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-require 'field_serializer'
-require 'nokogiri'
 require 'pry'
+require 'scraped'
 require 'scraperwiki'
 
 # require 'open-uri/cached'
 # OpenURI::Cache.cache_path = '.cache'
 require 'scraped_page_archive/open-uri'
 
-class String
-  def tidy
-    gsub(/[[:space:]]+/, ' ').strip
-  end
-end
+class SearchPage < Scraped::HTML
+  decorator Scraped::Response::Decorator::AbsoluteUrls
 
-class Page
-  include FieldSerializer
-
-  def initialize(url)
-    @url = url
-  end
-
-  def noko
-    @noko ||= Nokogiri::HTML(open(url).read)
-  end
-
-  private
-
-  attr_reader :url
-end
-
-class SearchPage < Page
   field :members do
     noko.css('.search-result-item a').map do |a|
       {
         name: a.text,
-        url:  URI.join(url, a.attr('href')),
+        url:  a.attr('href'),
       }
     end
   end
-
-  field :url do
-    url
-  end
-
-  private
-
-  attr_reader :search_string
 end
 
-class MemberPage < Page
+class MemberPage < Scraped::HTML
+  decorator Scraped::Response::Decorator::AbsoluteUrls
+
   field :id do
     url.to_s.split('/').last
   end
@@ -62,11 +35,11 @@ class MemberPage < Page
   end
 
   field :constituency do
-    constituency
+    box.xpath('.//th[text()="Constituency"]/following-sibling::td').text.tidy
   end
 
   field :state do
-    state
+    box.xpath('.//th[text()="State"]/following-sibling::td').text.tidy
   end
 
   field :chamber do
@@ -74,17 +47,15 @@ class MemberPage < Page
   end
 
   field :party do
-    party
+    party_node_match.captures.first
   end
 
   field :party_id do
-    party_id
+    party_node_match.captures.last
   end
 
   field :image do
-    img = box.css('.carousel-inner img/@src').text
-    return if img.to_s.empty?
-    URI.join(url, img).to_s
+    box.css('.carousel-inner img/@src').text
   end
 
   field :term do
@@ -116,30 +87,15 @@ class MemberPage < Page
   def party_node_match
     party_node.match(/^(.*)\s+\((.*)\)\s*$/) || abort("Bad party: #{party_node}")
   end
-
-  def party
-    party_node_match.captures.first
-  end
-
-  def party_id
-    party_node_match.captures.last
-  end
-
-  def constituency
-    box.xpath('.//th[text()="Constituency"]/following-sibling::td').text.tidy
-  end
-
-  def state
-    box.xpath('.//th[text()="State"]/following-sibling::td').text.tidy
-  end
 end
 
 members = %w(a e i o u).flat_map do |vowel|
   url = 'http://www.nass.gov.ng/search/mps/?search=%s' % vowel
-  SearchPage.new(url).to_h[:members]
+  SearchPage.new(response: Scraped::Request.new(url: url).response).members
 end.uniq
 
 members.select { |m| m[:name].start_with? 'Hon' }.each do |mem|
-  person = MemberPage.new(mem[:url])
-  ScraperWiki.save_sqlite(%i(id name term), person.to_h)
+  data = MemberPage.new(response: Scraped::Request.new(url: mem[:url]).response).to_h
+  # puts data.sort_by { |k, _| k }.to_h
+  ScraperWiki.save_sqlite(%i(id name term), data)
 end

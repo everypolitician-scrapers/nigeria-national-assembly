@@ -50,6 +50,13 @@ class MemberPage < Scraped::HTML
     box.xpath('.//th[text()="Position"]/following-sibling::td/span').text.tidy
   end
 
+  field :js_position do
+    js = noko.css('script:contains("positions")')
+    pos = js.to_s[/if\("(.*)" == "Sen"\)\{/, 1]
+    raise "Unexpected js_position: #{pos}" unless %w(Sen Hon).include?(pos)
+    pos
+  end
+
   field :party do
     party_node_match.captures.first
   end

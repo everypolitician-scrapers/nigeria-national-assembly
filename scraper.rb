@@ -46,6 +46,10 @@ class MemberPage < Scraped::HTML
     box.xpath('.//th[text()="Chamber"]/following-sibling::td').text.tidy
   end
 
+  field :position do
+    box.xpath('.//th[text()="Position"]/following-sibling::td/span').text.tidy
+  end
+
   field :party do
     party_node_match.captures.first
   end

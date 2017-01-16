@@ -126,7 +126,9 @@ class MemberPage < Page
     #
     # The first "Hon" in those conditionals might be "Sen" in some
     # pages. This field extracts that string:
-    @html[/if\("(.*)" == "Sen"\)\{/, 1]
+    pos = @html[/if\("(.*)" == "Sen"\)\{/, 1]
+    raise "Unexpected js_position: #{pos}" unless %w(Sen Hon).include?(pos)
+    pos
   end
 
   field :position do

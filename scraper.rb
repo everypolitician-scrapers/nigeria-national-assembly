@@ -30,8 +30,12 @@ class MemberPage < Scraped::HTML
     url.to_s.split('/').last
   end
 
+  field :title do
+    name_with_title[TITLE_RE, 1]
+  end
+
   field :name do
-    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy.sub('Hon. ', '')
+    name_with_title.gsub(TITLE_RE, '')
   end
 
   field :constituency do
@@ -98,6 +102,12 @@ class MemberPage < Scraped::HTML
   def party_node_match
     party_node.match(/^(.*)\s+\((.*)\)\s*$/) || abort("Bad party: #{party_node}")
   end
+
+  TITLE_RE = /^(Hon\.|Sen\.) /
+
+  def name_with_title
+    box.xpath('.//th[text()="Name"]/following-sibling::td').text.tidy
+  end
 end
 
 members = %w(a e i o u).flat_map do |vowel|
@@ -105,7 +115,7 @@ members = %w(a e i o u).flat_map do |vowel|
   SearchPage.new(response: Scraped::Request.new(url: url).response).members
 end.uniq
 
-data = members.select { |m| m[:name].start_with? 'Hon' }.map do |mem|
+data = members.map do |mem|
   MemberPage.new(response: Scraped::Request.new(url: mem[:url]).response).to_h
 end
 # puts data

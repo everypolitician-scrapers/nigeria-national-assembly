@@ -27,7 +27,7 @@ class Page
   end
 
   def noko
-    @html ||= open(url) { |f| f.read }
+    @html ||= open(url, &:read)
     @noko ||= Nokogiri::HTML(@html)
   end
 

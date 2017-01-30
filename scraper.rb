@@ -115,6 +115,37 @@ members = %w(a e i o u).flat_map do |vowel|
   SearchPage.new(response: Scraped::Request.new(url: url).response).members
 end.uniq
 
+# The search index and list pages seem to be missing some members of
+# the National Assembly, so add them manually to the pages to be scraped:
+members.concat [
+  { url:  'http://www.nass.gov.ng/mp/profile/836',
+    name: 'Hon. AWAJI-INOMBEK DAGOMIE ABIANTE', },
+  { url:  'http://www.nass.gov.ng/mp/profile/664',
+    name: 'Hon. BELLO ABDULLAHI', },
+  { url:  'http://www.nass.gov.ng/mp/profile/896',
+    name: 'Hon. BROWN RANDOLPH IWO ONYERE', },
+  { url:  'http://www.nass.gov.ng/mp/profile/538',
+    name: 'Hon. DEKOR ROBINSON DUMNAMENE', },
+  { url:  'http://www.nass.gov.ng/mp/profile/635',
+    name: 'Hon. Dennis Nnamdi Agbo', },
+  { url:  'http://www.nass.gov.ng/mp/profile/631',
+    name: 'Hon. EMERENGWA SUNDAY BONIFACE', },
+  { url:  'http://www.nass.gov.ng/mp/profile/884',
+    name: 'Hon. GOGO BRIGHT TAMUNO', },
+  { url:  'http://www.nass.gov.ng/mp/profile/527',
+    name: 'Hon. JACOBSON NBINA BARINEKA', },
+  { url:  'http://www.nass.gov.ng/mp/profile/839',
+    name: 'Hon. KENNETH ANAYO CHIKERE', },
+  { url:  'http://www.nass.gov.ng/mp/profile/646',
+    name: 'Hon. KWAMOTI BITRUS LAORI', },
+  { url:  'http://www.nass.gov.ng/mp/profile/306',
+    name: 'Hon. NSIEGBE BLESSING IBIBA', },
+  { url:  'http://www.nass.gov.ng/mp/profile/675',
+    name: 'Hon. Betty Jocelyn Apiafi', },
+  { url:  'http://www.nass.gov.ng/mp/profile/826',
+    name: 'Hon. D Goodhead Boma', },
+]
+
 data = members.map do |mem|
   MemberPage.new(response: Scraped::Request.new(url: mem[:url]).response).to_h
 end

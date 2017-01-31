@@ -77,7 +77,7 @@ class MemberPage < Scraped::HTML
   end
 
   field :area do
-    [constituency, state].join(', ')
+    constituency.empty? ? '' : [constituency, state].join(', ')
   end
 
   field :phone do

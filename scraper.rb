@@ -139,6 +139,10 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/675',
   # Hon. D Goodhead Boma
   'http://www.nass.gov.ng/mp/profile/826',
+  # Hon. Ugwuegede Ikechukwu
+  'http://www.nass.gov.ng/mp/profile/952',
+  # Hon. Jerome Eke
+  'http://www.nass.gov.ng/mp/profile/831',
 ]
 
 data = member_urls.map do |url|

@@ -143,6 +143,12 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/952',
   # Hon. Jerome Eke
   'http://www.nass.gov.ng/mp/profile/831',
+  # Sen. GEORGE THOMPSON SEKIBO
+  'http://www.nass.gov.ng/mp/profile/876',
+  # Sen. LILIAN UCHE EKWUNIFE
+  'http://www.nass.gov.ng/mp/profile/91',
+  # Sen. OLAKA JOHNSON NWOGU
+  'http://www.nass.gov.ng/mp/profile/937',
 ]
 
 data = member_urls.map do |url|

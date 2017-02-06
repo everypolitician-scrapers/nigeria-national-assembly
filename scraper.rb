@@ -149,6 +149,12 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/91',
   # Sen. OLAKA JOHNSON NWOGU
   'http://www.nass.gov.ng/mp/profile/937',
+  # Sen. Ahmed .Salau Ogembe
+  'http://nass.gov.ng/mp/profile/891',
+  # Sen. OHUABUNWA AZIKIWE MAO
+  'http://nass.gov.ng/mp/profile/506',
+  # Sen. ABDUL ABDULRAHMAN ABUBAKAR
+  'http://www.nass.gov.ng/mp/profile/520',
 ]
 
 data = member_urls.map do |url|

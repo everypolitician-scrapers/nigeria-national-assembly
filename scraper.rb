@@ -29,11 +29,11 @@ class MemberPage < Scraped::HTML
     name_with_title[TITLE_RE, 1]
   end
 
-  field :name do
+  field :shorter_name do
     name_with_title.gsub(TITLE_RE, '')
   end
 
-  field :full_name do
+  field :name do
     noko.xpath('.//h1/text()').text.tidy.gsub(TITLE_RE, '')
   end
 

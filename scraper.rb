@@ -33,6 +33,10 @@ class MemberPage < Scraped::HTML
     name_with_title.gsub(TITLE_RE, '')
   end
 
+  field :full_name do
+    noko.xpath('.//h1/text()').text.tidy.gsub(TITLE_RE, '')
+  end
+
   field :constituency do
     box.xpath('.//th[text()="Constituency"]/following-sibling::td').text.tidy
   end

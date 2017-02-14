@@ -69,7 +69,8 @@ class MemberPage < Scraped::HTML
   end
 
   field :image do
-    box.css('.carousel-inner img/@src').text
+    image_url = box.css('.carousel-inner img/@src').text
+    image_url.include?('/avatar.jpg') ? nil : image_url
   end
 
   field :term do

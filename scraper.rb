@@ -159,6 +159,8 @@ member_urls |= [
   'http://nass.gov.ng/mp/profile/506',
   # Sen. ABDUL ABDULRAHMAN ABUBAKAR
   'http://www.nass.gov.ng/mp/profile/520',
+  # Sen. OSINAKACHUKWU T IDEOZU
+  'http://www.nass.gov.ng/mp/profile/812',
 ]
 
 data = member_urls.map do |url|

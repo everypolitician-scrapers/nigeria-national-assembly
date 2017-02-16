@@ -164,10 +164,12 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/812',
 ]
 
-data = member_urls.map do |url|
-  MemberPage.new(response: Scraped::Request.new(url: url).response).to_h
+def scrape(h)
+  url, klass = h.to_a.first
+  klass.new(response: Scraped::Request.new(url: url).response)
 end
-# puts data
 
 ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
+data = member_urls.map { |url| scrape(url => MemberPage).to_h }
+# puts data.map { |r| r.reject { |k, v| v.to_s.empty? }.sort_by { |k, v| k }.to_h }
 ScraperWiki.save_sqlite(%i(id name term), data)

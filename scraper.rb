@@ -148,6 +148,8 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/952',
   # Hon. Jerome Eke
   'http://www.nass.gov.ng/mp/profile/831',
+  # Hon. CHINDA KINGSLEY OGUNDU
+  'http://www.nass.gov.ng/mp/profile/302',
   # Sen. GEORGE THOMPSON SEKIBO
   'http://www.nass.gov.ng/mp/profile/876',
   # Sen. LILIAN UCHE EKWUNIFE
@@ -162,6 +164,8 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/520',
   # Sen. OSINAKACHUKWU T IDEOZU
   'http://www.nass.gov.ng/mp/profile/812',
+  # Sen. HUSSAIN EGYE SALIHU
+  'http://www.nass.gov.ng/mp/profile/519',
 ]
 
 data = member_urls.map do |url|

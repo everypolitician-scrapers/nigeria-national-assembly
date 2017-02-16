@@ -73,10 +73,6 @@ class MemberPage < Scraped::HTML
     image_url.include?('/avatar.jpg') ? nil : image_url
   end
 
-  field :term do
-    2015
-  end
-
   field :source do
     url.to_s
   end
@@ -170,6 +166,6 @@ def scrape(h)
 end
 
 ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
-data = member_urls.map { |url| scrape(url => MemberPage).to_h }
+data = member_urls.map { |url| scrape(url => MemberPage).to_h.merge(term: 8) }
 # puts data.map { |r| r.reject { |k, v| v.to_s.empty? }.sort_by { |k, v| k }.to_h }
 ScraperWiki.save_sqlite(%i(id name term), data)

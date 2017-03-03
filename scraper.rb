@@ -162,6 +162,10 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/812',
   # Sen. HUSSAIN EGYE SALIHU
   'http://www.nass.gov.ng/mp/profile/519',
+  # Hon. Philip Shaibu -- this person is no longer a representative
+  # They were elected as a state governor in 2016
+  # https://www.today.ng/news/politics/192788/edo-guber-inec-presents-certificate-return-obaseki-shaibu
+  'http://www.nass.gov.ng/mp/profile/577',
 ]
 
 def scrape(h)

@@ -85,6 +85,15 @@ class MemberPage < Scraped::HTML
     noko.css('.fa-phone').xpath('./following-sibling::text()').first.text.tidy
   end
 
+  field :end_date do
+    # Until we have support in everypolitician-data for getting end
+    # dates from Wikidata and letting them override membership data
+    # from a source like this, just hardcode the end_date of certain
+    # memberships. This is currently required in the case of the
+    # Hon. Philip Shaibu. (See below for a link to the source story.)
+    { '577' => '2016-03' }.fetch(id, '')
+  end
+
   private
 
   def box

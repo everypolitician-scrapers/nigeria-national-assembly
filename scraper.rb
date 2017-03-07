@@ -85,6 +85,15 @@ class MemberPage < Scraped::HTML
     noko.css('.fa-phone').xpath('./following-sibling::text()').first.text.tidy
   end
 
+  field :end_date do
+    # Until we have support in everypolitician-data for getting end
+    # dates from Wikidata and letting them override membership data
+    # from a source like this, just hardcode the end_date of certain
+    # memberships. This is currently required in the case of the
+    # Hon. Philip Shaibu. (See below for a link to the source story.)
+    { '577' => '2016-03' }.fetch(id, '')
+  end
+
   private
 
   def box
@@ -162,6 +171,10 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/812',
   # Sen. HUSSAIN EGYE SALIHU
   'http://www.nass.gov.ng/mp/profile/519',
+  # Hon. Philip Shaibu -- this person is no longer a representative
+  # They were elected as a state governor in 2016
+  # https://www.today.ng/news/politics/192788/edo-guber-inec-presents-certificate-return-obaseki-shaibu
+  'http://www.nass.gov.ng/mp/profile/577',
 ]
 
 def scrape(h)

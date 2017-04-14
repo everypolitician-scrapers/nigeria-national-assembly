@@ -122,6 +122,7 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/520', # Sen. ABDUL ABDULRAHMAN ABUBAKAR
   'http://www.nass.gov.ng/mp/profile/527', # Hon. JACOBSON NBINA BARINEKA
   'http://www.nass.gov.ng/mp/profile/538', # Hon. DEKOR ROBINSON DUMNAMENE
+  'http://www.nass.gov.ng/mp/profile/577', # Hon. PHILIP SHAIBU
   'http://www.nass.gov.ng/mp/profile/631', # Hon. EMERENGWA SUNDAY BONIFACE
   'http://www.nass.gov.ng/mp/profile/635', # Hon. Dennis Nnamdi Agbo
   'http://www.nass.gov.ng/mp/profile/646', # Hon. KWAMOTI BITRUS LAORI

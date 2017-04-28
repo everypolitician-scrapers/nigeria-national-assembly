@@ -56,7 +56,7 @@ class MemberPage < Scraped::HTML
   field :js_position do
     js = noko.css('script:contains("positions")')
     pos = js.to_s[/if\("(.*)" == "Sen"\)\{/, 1]
-    raise "Unexpected js_position: #{pos}" unless %w(Sen Hon).include?(pos)
+    raise "Unexpected js_position: #{pos}" unless %w[Sen Hon].include?(pos)
     pos
   end
 
@@ -106,7 +106,7 @@ class MemberPage < Scraped::HTML
   end
 end
 
-member_urls = %w(a e i o u).flat_map do |vowel|
+member_urls = %w[a e i o u].flat_map do |vowel|
   url = 'http://www.nass.gov.ng/search/mps/?search=%s' % vowel
   SearchPage.new(response: Scraped::Request.new(url: url).response).member_urls
 end.uniq
@@ -149,4 +149,4 @@ end
 ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
 data = member_urls.map { |url| scrape(url => MemberPage).to_h.merge(term: 8) }
 # puts data.map { |r| r.reject { |k, v| v.to_s.empty? }.sort_by { |k, v| k }.to_h }
-ScraperWiki.save_sqlite(%i(id name term), data)
+ScraperWiki.save_sqlite(%i[id name term], data)

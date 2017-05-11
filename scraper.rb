@@ -146,7 +146,7 @@ def scrape(h)
   klass.new(response: Scraped::Request.new(url: url).response)
 end
 
-ScraperWiki.sqliteexecute('DELETE FROM data') rescue nil
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
 data = member_urls.map { |url| scrape(url => MemberPage).to_h.merge(term: 8) }
 # puts data.map { |r| r.reject { |k, v| v.to_s.empty? }.sort_by { |k, v| k }.to_h }
 ScraperWiki.save_sqlite(%i[id name term], data)

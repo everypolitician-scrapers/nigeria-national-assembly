@@ -18,7 +18,7 @@ response:
     message: OK
   headers:
     Date:
-    - Wed, 17 May 2017 03:05:29 GMT
+    - Thu, 18 May 2017 11:13:44 GMT
     Server:
     - Apache
     Expires:
@@ -28,7 +28,7 @@ response:
     Pragma:
     - no-cache
     Set-Cookie:
-    - PHPSESSID=5BoHoX2m2RjEWc65g0sf53; path=/
+    - PHPSESSID=j63rScGJFL703dwOslLMX2; path=/
     Vary:
     - Accept-Encoding
     Transfer-Encoding:
@@ -38,4 +38,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Wed, 17 May 2017 03:05:29 GMT
+recorded_at: Thu, 18 May 2017 11:13:45 GMT

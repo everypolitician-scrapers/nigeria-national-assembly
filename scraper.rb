@@ -11,7 +11,7 @@ require 'scraperwiki'
 require 'scraped_page_archive/open-uri'
 
 class SearchPage < Scraped::HTML
-  decorator Scraped::Response::Decorator::AbsoluteUrls
+  decorator Scraped::Response::Decorator::CleanUrls
 
   field :member_urls do
     noko.css('.search-result-item a').map { |a| a.attr('href') }
@@ -19,7 +19,7 @@ class SearchPage < Scraped::HTML
 end
 
 class MemberPage < Scraped::HTML
-  decorator Scraped::Response::Decorator::AbsoluteUrls
+  decorator Scraped::Response::Decorator::CleanUrls
 
   field :id do
     url.to_s.split('/').last

@@ -128,6 +128,7 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/646', # Hon. KWAMOTI BITRUS LAORI
   'http://www.nass.gov.ng/mp/profile/664', # Hon. BELLO ABDULLAHI
   'http://www.nass.gov.ng/mp/profile/675', # Hon. Betty Jocelyn Apiafi
+  'http://www.nass.gov.ng/mp/profile/679', # Hon. SOPULUCHUKWU ELBERT EZEONWUKA
   'http://www.nass.gov.ng/mp/profile/809', # Sen. ATHANASIUS NNEJI ACHONU
   'http://www.nass.gov.ng/mp/profile/812', # Sen. OSINAKACHUKWU T IDEOZU
   'http://www.nass.gov.ng/mp/profile/826', # Hon. D Goodhead Boma

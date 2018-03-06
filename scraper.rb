@@ -36,6 +36,7 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/520', # Sen. ABDUL ABDULRAHMAN ABUBAKAR
   'http://www.nass.gov.ng/mp/profile/527', # Hon. JACOBSON NBINA BARINEKA
   'http://www.nass.gov.ng/mp/profile/538', # Hon. DEKOR ROBINSON DUMNAMENE
+  'http://www.nass.gov.ng/mp/profile/551', # Hon. HERMAN IORWASE HEMBE
   'http://www.nass.gov.ng/mp/profile/577', # Hon. PHILIP SHAIBU
   'http://www.nass.gov.ng/mp/profile/631', # Hon. EMERENGWA SUNDAY BONIFACE
   'http://www.nass.gov.ng/mp/profile/635', # Hon. Dennis Nnamdi Agbo
@@ -43,6 +44,7 @@ member_urls |= [
   'http://www.nass.gov.ng/mp/profile/664', # Hon. BELLO ABDULLAHI
   'http://www.nass.gov.ng/mp/profile/675', # Hon. Betty Jocelyn Apiafi
   'http://www.nass.gov.ng/mp/profile/679', # Hon. SOPULUCHUKWU ELBERT EZEONWUKA
+  'http://www.nass.gov.ng/mp/profile/729', # Hon. KHAMISU AHM MAILANTARKI AHMED
   'http://www.nass.gov.ng/mp/profile/758', # Sen. Isiaka Adetunji Adeleke
   'http://www.nass.gov.ng/mp/profile/809', # Sen. ATHANASIUS NNEJI ACHONU
   'http://www.nass.gov.ng/mp/profile/812', # Sen. OSINAKACHUKWU T IDEOZU

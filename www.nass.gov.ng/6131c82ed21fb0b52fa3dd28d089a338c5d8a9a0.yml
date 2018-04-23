@@ -18,24 +18,16 @@ response:
     message: OK
   headers:
     Date:
-    - Sun, 22 Apr 2018 13:50:29 GMT
+    - Mon, 23 Apr 2018 06:29:47 GMT
     Server:
     - Apache
-    Expires:
-    - Thu, 19 Nov 1981 08:52:00 GMT
-    Cache-Control:
-    - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
-    Pragma:
-    - no-cache
-    Set-Cookie:
-    - PHPSESSID=ThlRjnOoiLpcVLC%2CV0HYb1; path=/
     Vary:
     - Accept-Encoding
+    Content-Length:
+    - '26'
     Content-Type:
     - text/html; charset=UTF-8
-    Content-Length:
-    - '27431'
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Sun, 22 Apr 2018 13:50:30 GMT
+recorded_at: Mon, 23 Apr 2018 06:29:47 GMT

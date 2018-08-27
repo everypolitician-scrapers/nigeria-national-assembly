@@ -1,0 +1,39 @@
+---
+request:
+  method: get
+  uri: https://www.nass.gov.ng/mp/profile/984
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - "*/*"
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 200
+    message: OK
+  headers:
+    Date:
+    - Mon, 27 Aug 2018 11:36:00 GMT
+    Server:
+    - Apache
+    Expires:
+    - Thu, 19 Nov 1981 08:52:00 GMT
+    Cache-Control:
+    - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+    Pragma:
+    - no-cache
+    Set-Cookie:
+    - PHPSESSID=4R095nT%2CNJ3IqV%2CARj78x0; path=/
+    Content-Type:
+    - text/html; charset=UTF-8
+    Content-Length:
+    - '27034'
+  body:
+    encoding: UTF-8
+  http_version: 
+recorded_at: Mon, 27 Aug 2018 11:36:00 GMT
